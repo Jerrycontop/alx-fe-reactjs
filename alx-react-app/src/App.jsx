@@ -4,6 +4,8 @@ import WelcomeMessage from './components/WelcomeMessage';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
+import UserProfile from './components/UserProfile';
+
 
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
@@ -16,9 +18,15 @@ function App() {
   return (
     <>
     <WelcomeMessage />  {/* added this line*/}
+    <UserProfile
+        name="Alice"
+        age="25"
+        bio="Loves hiking and photography"
+      />
     <Header />
       <MainContent />
       <Footer />
+    
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
