@@ -1,54 +1,31 @@
-import { create } from 'zustand';
+import create from 'zustand';
 
-export const useRecipeStore = create((set, get) => ({
+export const useRecipeStore = create((set) => ({
   recipes: [],
   searchTerm: '',
   filteredRecipes: [],
 
-  // Add new recipe
-  addRecipe: (newRecipe) =>
-    set((state) => ({
-      recipes: [...state.recipes, newRecipe],
-      filteredRecipes: [...state.recipes, newRecipe].filter((recipe) =>
-        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-      ),
-    })),
-
-  // Set entire list
-  setRecipes: (recipes) => set({ recipes }),
-
-  // Delete recipe
-  deleteRecipe: (id) =>
+  setSearchTerm: (term) => {
     set((state) => {
-      const updated = state.recipes.filter((r) => r.id !== id);
-      return {
-        recipes: updated,
-        filteredRecipes: updated.filter((recipe) =>
-          recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        ),
-      };
-    }),
-
-  // Update recipe
-  updateRecipe: (updatedRecipe) =>
-    set((state) => {
-      const updated = state.recipes.map((recipe) =>
-        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+      const filtered = state.recipes.filter(recipe =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
       );
       return {
-        recipes: updated,
-        filteredRecipes: updated.filter((recipe) =>
-          recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        ),
+        searchTerm: term,
+        filteredRecipes: filtered,
       };
-    }),
+    });
+  },
 
-  // Set search term and trigger filtering
-  setSearchTerm: (term) => {
-    const recipes = get().recipes;
-    const filtered = recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(term.toLowerCase())
-    );
-    set({ searchTerm: term, filteredRecipes: filtered });
+  setRecipes: (recipes) => {
+    set((state) => {
+      const filtered = recipes.filter(recipe =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      );
+      return {
+        recipes,
+        filteredRecipes: filtered,
+      };
+    });
   },
 }));

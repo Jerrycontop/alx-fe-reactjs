@@ -1,4 +1,5 @@
-import { useRecipeStore } from './recipeStore';
+import React from 'react';
+import { useRecipeStore } from '../recipeStore';
 
 const SearchBar = () => {
   const setSearchTerm = useRecipeStore((state) => state.setSearchTerm);
@@ -8,7 +9,7 @@ const SearchBar = () => {
       type="text"
       placeholder="Search recipes..."
       onChange={(e) => setSearchTerm(e.target.value)}
-      style={{ padding: '0.5rem', width: '100%', marginBottom: '1rem' }}
+      className="p-2 border rounded-md w-full my-4"
     />
   );
 };
