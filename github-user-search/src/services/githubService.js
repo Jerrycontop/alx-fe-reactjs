@@ -3,7 +3,6 @@ import axios from 'axios';
 export const fetchUserData = async ({ username, location, minRepos }) => {
   let query = '';
 
-  // Build search query
   if (username) query += `${username} in:login`;
   if (location) query += ` location:${location}`;
   if (minRepos) query += ` repos:>=${minRepos}`;
@@ -12,9 +11,9 @@ export const fetchUserData = async ({ username, location, minRepos }) => {
 
   try {
     const response = await axios.get(url);
-    return response.data.items; // array of users
+    return response.data.items;
   } catch (error) {
     console.error('Error fetching GitHub users:', error);
-    return [];
+    throw error;
   }
 };

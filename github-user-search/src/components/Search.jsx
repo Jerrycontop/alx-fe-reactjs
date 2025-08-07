@@ -1,33 +1,36 @@
-// src/components/Search.jsx
 import React, { useState } from 'react';
-import axios from 'axios'; // keep axios here if you will call fetch from this component (optional)
+import { fetchUserData } from '../services/githubService';
 
-const Search = ({ onSearch, data = [], loading = false }) => {
+const Search = () => {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
-  const [errorLocal, setErrorLocal] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation: require at least one field
-    if (!username && !location && !minRepos) {
-      setErrorLocal('Please enter at least one search criteria.');
-      return;
+    setError('');
+    setLoading(true);
+    try {
+      const data = await fetchUserData({ username, location, minRepos });
+      setResults(data);
+    } catch {
+      setError('Failed to fetch users');
+    } finally {
+      setLoading(false);
     }
-    setErrorLocal('');
-    // call parent onSearch — parent should handle API and loading
-    onSearch({ username, location, minRepos });
   };
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold text-center mb-4">GitHub Advanced User Search</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">
+        GitHub Advanced User Search
+      </h2>
 
+      {/* Search Form */}
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4">
-        {/** show local validation error */}
-        {errorLocal && <p className="text-red-500">{errorLocal}</p>}
-
         <input
           type="text"
           placeholder="Username"
@@ -57,30 +60,37 @@ const Search = ({ onSearch, data = [], loading = false }) => {
         </button>
       </form>
 
-      {/** --- Results display (checker looks for these exact terms) --- */}
-      {loading && <p>Loading</p>}
+      {/* Loading */}
+      {loading && <p className="text-center mt-4">Loading...</p>}
 
-      {/* When no results found and not loading, show this exact message (checker expects this string) */}
-      {!loading && data && data.length === 0 && <p>Looks like we cant find the user</p>}
+      {/* Error */}
+      {error && <p className="text-center text-red-500 mt-4">{error}</p>}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {data &&
-          data.map((user) => (
-            <div key={user.id} className="bg-white p-4 rounded shadow">
-              {/* checker looks for 'img' and 'avatar_url' and 'login' literals */}
-              <img
-                src={user.avatar_url}
-                alt={user.login}
-                className="w-20 h-20 rounded-full mx-auto"
-              />
-              <h3 className="text-center mt-2 font-semibold">{user.login}</h3>
-              <p className="text-center mt-1 text-sm">
-                <a href={user.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                  View Profile
-                </a>
-              </p>
+      {/* Results */}
+      <div className="mt-6 space-y-4">
+        {results.map((user) => (
+          <div
+            key={user.id}
+            className="flex items-center space-x-4 p-4 border rounded-lg shadow"
+          >
+            <img
+              src={user.avatar_url}
+              alt={user.login}
+              className="w-12 h-12 rounded-full"
+            />
+            <div>
+              <p className="font-medium">{user.login}</p>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                View Profile
+              </a>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     </div>
   );
