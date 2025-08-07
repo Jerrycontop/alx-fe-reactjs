@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Search = ({ onSearch }) => {
+const Search = ({ onSearch, data = [], loading = false }) => {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
@@ -42,6 +42,18 @@ const Search = ({ onSearch }) => {
           Search
         </button>
       </form>
+            {/* Display search results */}
+      {loading && <p>Loading</p>}
+      {!loading && data && data.length === 0 && <p>Looks like we cant find the user</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        {data && data.map((user) => (
+          <div key={user.id} className="bg-white p-4 rounded shadow">
+            <img src={user.avatar_url} alt={user.login} className="w-20 h-20 rounded-full mx-auto" />
+            <h3 className="text-center mt-2 font-semibold">{user.login}</h3>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 };
