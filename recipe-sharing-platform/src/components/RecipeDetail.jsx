@@ -29,9 +29,7 @@ function RecipeDetail() {
       <div className="bg-gray-100 rounded-md p-4 mb-6">
         <h2 className="text-lg font-semibold mb-2">Ingredients</h2>
         <ul className="list-disc list-inside space-y-1">
-          <li>Ingredient 1</li>
-          <li>Ingredient 2</li>
-          <li>Ingredient 3</li>
+          <li>Ingredients will go here</li>
         </ul>
       </div>
 
