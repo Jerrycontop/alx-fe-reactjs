@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./components/Home";
+import HomePage from "./components/HomePage";
 import RecipeDetails from "./components/RecipeDetails";
 import AddRecipe from "./components/AddRecipe";
 
@@ -25,7 +25,7 @@ function App() {
 
         {/* Routes */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
           <Route path="/add" element={<AddRecipe />} />
         </Routes>
