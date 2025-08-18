@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./components/HomePage";
-import RecipeDetails from "./components/RecipeDetails";
+import RecipeDetail from "./components/RecipeDetail";
 import AddRecipe from "./components/AddRecipe";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         {/* Routes */}
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/recipe/:id" element={<RecipeDetails />} />
+          <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/add" element={<AddRecipe />} />
         </Routes>
       </div>
