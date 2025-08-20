@@ -1,49 +1,50 @@
+import React from "react";
+import "./RecipeDetail.css";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import recipes from "../data.json"; // adjust path if needed
 
-function RecipeDetail() {
+const RecipeDetail = () => {
   const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-
-  useEffect(() => {
-    import("../data.json").then((data) => {
-      const found = data.default.find((item) => item.id === Number(id));
-      setRecipe(found);
-    });
-  }, [id]);
+  const recipe = recipes.find((r) => r.id.toString() === id);
 
   if (!recipe) {
-    return <div className="p-6">Loading...</div>;
+    return <p className="text-center mt-10 text-red-500">Recipe not found</p>;
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">{recipe.title}</h1>
+    <div className="max-w-3xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
       <img
         src={recipe.image}
         alt={recipe.title}
-        className="w-full h-64 object-cover rounded-lg mb-6"
+        className="w-full h-64 object-cover rounded-lg shadow-md mb-6"
       />
 
-      {/* Ingredients section */}
-      <div className="bg-gray-100 rounded-md p-4 mb-6">
-        <h2 className="text-lg font-semibold mb-2">Ingredients</h2>
+      {/* Ingredients Section */}
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold mb-3">Ingredients</h2>
         <ul className="list-disc list-inside space-y-1">
-          <li>Ingredients will go here</li>
+          {recipe.ingredients.map((ingredient, index) => (
+            <li key={index} className="text-gray-700">
+              {ingredient}
+            </li>
+          ))}
         </ul>
-      </div>
+      </section>
 
-      {/* Instructions section */}
-      <div className="bg-gray-100 rounded-md p-4">
-        <h2 className="text-lg font-semibold mb-2">Instructions</h2>
+      {/* Instructions Section */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Instructions</h2>
         <ol className="list-decimal list-inside space-y-2">
-          <li>Step one of the cooking instructions.</li>
-          <li>Step two of the cooking instructions.</li>
-          <li>Step three of the cooking instructions.</li>
+          {recipe.instructions.map((step, index) => (
+            <li key={index} className="text-gray-700">
+              {step}
+            </li>
+          ))}
         </ol>
-      </div>
+      </section>
     </div>
   );
-}
+};
 
 export default RecipeDetail;
