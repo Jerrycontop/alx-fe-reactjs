@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import RecipeDetail from "./components/RecipeDetail";
 import AddRecipe from "./components/AddRecipe";
+import AddRecipe from "./components/AddRecipe";
+
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/add" element={<AddRecipe />} />
+          <Route path="/add" element={<AddRecipeForm />} /> 
         </Routes>
       </div>
     </Router>
