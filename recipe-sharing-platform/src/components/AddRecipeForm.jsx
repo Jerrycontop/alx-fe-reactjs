@@ -72,25 +72,19 @@ export default function AddRecipeForm() {
         </div>
 
         {/* Preparation Steps */}
-        <div>
-          <label className="block font-medium text-gray-700">Preparation Steps</label>
-          <textarea
-            value={steps}
-            onChange={(e) => setSteps(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:ring-2 focus:ring-blue-500"
-            placeholder="Write preparation steps here..."
-            rows="4"
-          />
-          {errors.steps && <p className="text-red-500 text-sm">{errors.steps}</p>}
-        </div>
+        <div className="flex flex-col md:flex-row md:space-x-4 md:space-y-0">
+  <input className="flex-1 p-2 border rounded" placeholder="Recipe Name" />
+  <input className="flex-1 p-2 border rounded" placeholder="Image URL" />
+</div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
-        >
-          Submit Recipe
-        </button>
+<div className="mt-4">
+  <textarea className="w-full p-2 border rounded" placeholder="Description" />
+</div>
+
+<button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+  Submit
+</button>
+
       </form>
     </div>
   );
