@@ -1,53 +1,73 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-function RegistrationForm() {
+const RegistrationForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !email || !password) {
-      setError("All fields are required!");
-      return;
+    let validationErrors = {};
+
+    if (!username) {
+      validationErrors.username = "Username is required";
     }
-    setError("");
-    console.log("Form submitted:", { username, email, password });
+    if (!email) {
+      validationErrors.email = "Email is required";
+    }
+    if (!password) {
+      validationErrors.password = "Password is required";
+    }
+
+    setErrors(validationErrors);
+
+    // If no validation errors, proceed with form submission
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("Form submitted:", { username, email, password });
+      alert("Registration successful!");
+      // Reset form
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 max-w-md mx-auto border rounded">
-      {error && <p className="text-red-500 mb-2">{error}</p>}
-      
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 border rounded">
+      <h2 className="text-xl font-bold mb-4">User Registration</h2>
+
       <div className="mb-3">
-        <label className="block mb-1">Username</label>
+        <label className="block">Username:</label>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="w-full border px-2 py-1"
         />
+        {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
       </div>
 
       <div className="mb-3">
-        <label className="block mb-1">Email</label>
+        <label className="block">Email:</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full border px-2 py-1"
         />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
 
       <div className="mb-3">
-        <label className="block mb-1">Password</label>
+        <label className="block">Password:</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full border px-2 py-1"
         />
+        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
       </div>
 
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
@@ -55,6 +75,6 @@ function RegistrationForm() {
       </button>
     </form>
   );
-}
+};
 
 export default RegistrationForm;
