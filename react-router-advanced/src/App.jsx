@@ -6,6 +6,7 @@ import ProfileDetails from "./pages/ProfileDetails";
 import ProfileSettings from "./pages/ProfileSettings";
 import Post from "./pages/Post";
 import ProtectedRoute from "./components/ProtectedRoute";
+import BlogPost from "./components/BlogPost";
 
 function App() {
   const isAuthenticated = true; // simulate authentication
@@ -30,6 +31,7 @@ function App() {
 
         {/* Dynamic Route */}
         <Route path="/posts/:id" element={<Post />} />
+        <Route path="/blog/:id" element={<BlogPost />} />
       </Routes>
     </Router>
   );
