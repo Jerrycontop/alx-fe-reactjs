@@ -1,11 +1,18 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
-  const isAuthenticated = localStorage.getItem("auth") === "true";
+// simple mock authentication hook
+const useAuth = () => {
+  // For now, we just simulate an authenticated user
+  // Later, this could be replaced with real logic (e.g., context or API)
+  const user = { loggedIn: true }; 
+  return user && user.loggedIn;
+};
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+const ProtectedRoute = ({ children }) => {
+  const isAuth = useAuth();
 
-  return children;
-}
+  return isAuth ? children : <Navigate to="/" replace />;
+};
+
+export default ProtectedRoute;
