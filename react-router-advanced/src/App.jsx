@@ -1,34 +1,38 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import About from "./pages/About";
 import Profile from "./pages/Profile";
-import BlogPost from "./pages/BlogPost";
-import Login from "./pages/Login";
+import ProfileDetails from "./pages/ProfileDetails";
+import ProfileSettings from "./pages/ProfileSettings";
+import Post from "./pages/Post";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-export default function App() {
+function App() {
+  const isAuthenticated = true; // simulate authentication
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-      {/* Protected Route for Profile */}
-      <Route
-        path="/profile/*"
-        element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        }
-      />
+        {/* Protected Profile Route */}
+        <Route
+          path="/profile/*"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="details" element={<ProfileDetails />} />
+          <Route path="settings" element={<ProfileSettings />} />
+        </Route>
 
-      {/* Dynamic route for blog posts */}
-      <Route path="/blog/:id" element={<BlogPost />} />
-
-      <Route path="/login" element={<Login />} />
-
-      {/* Catch-all redirect */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        {/* Dynamic Route */}
+        <Route path="/posts/:id" element={<Post />} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
